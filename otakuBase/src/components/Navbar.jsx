@@ -1,12 +1,13 @@
-import React from 'react'
+import React from "react";
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <>
-        <div> Home </div>
-        <div> Favourites </div>
-    </>
-  )
-}
+    <nav class="flex gap-4 p-4 bg-blue-900">
+      <Link to="/home">Home</Link>
+      <Link to="/favourite">Favourites</Link>
+    </nav>
+  );
+};
 
-export default Navbar
+export default Navbar;
