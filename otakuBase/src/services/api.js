@@ -27,3 +27,18 @@ export const getTopAnime = async () => {
     return [];
   }
 };
+
+export const searchAnime = async (query) => {
+  try{
+    const response = await fetch(`${BASE_URL}/anime?q=${query}`);
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+    const json = await response.json();
+    return json.data;
+  } catch (error) {
+    console.error("Failed to fetch top anime:", error);
+    return [];
+  }
+  
+ }

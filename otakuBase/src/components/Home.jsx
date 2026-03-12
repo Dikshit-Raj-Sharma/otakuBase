@@ -4,10 +4,27 @@ import AnimeCard from "./AnimeCard";
 import SearchBar from "./SearchBar";
 
 import { getTrendingAnime } from "../services/api.js";
+import { searchAnime } from "../services/api";
+
 const Home = () => {
   const [anime, setAnime] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = async () => {
+    if(!searchQuery.trim()) return;
+    try{
+        setLoading(true);
+        const data = await searchAnime(searchQuery);
+        setAnime(data);
+        setErr(null);
+      }catch(error){
+        setErr("Couldn't Find the Anime");
+      }finally{
+        setLoading(false)
+      }
+  }
 
   useEffect(() => {
     const loadAnime = async () => {
@@ -24,10 +41,6 @@ const Home = () => {
     };
     loadAnime();
   }, []);
-  const [searchQuery, setSearchQuery] = useState("");
-  const filtered_anime = anime.filter((a) =>
-    a.title.toLowerCase().startsWith(searchQuery.toLowerCase()),
-  );
   if (loading)
     return (
       <div className="min-h-[calc(100vh-90px)] flex items-center justify-center text-xl">
@@ -37,10 +50,14 @@ const Home = () => {
   if (err) return <div className="p-4 text-xl text-red-500">Error: {err}</div>;
   return (
     <>
-      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <SearchBar
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        onSearch={handleSearch}
+      />
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">
         {" "}
-        {filtered_anime.map((a) => (
+        {anime.map((a) => (
           <AnimeCard anime={a} key={a.mal_id} />
         ))}{" "}
       </div>
