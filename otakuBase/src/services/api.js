@@ -6,11 +6,24 @@ export const getTrendingAnime = async () => {
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
-    const json= await response.json();
+    const json = await response.json();
     return json.data;
-  } catch(error){
+  } catch (error) {
     console.error("Failed to fetch trending anime:", error);
     return [];
   }
 };
 
+export const getTopAnime = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/top/anime`);
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+    const json = await response.json();
+    return json.data;
+  } catch (error) {
+    console.error("Failed to fetch top anime:", error);
+    return [];
+  }
+};

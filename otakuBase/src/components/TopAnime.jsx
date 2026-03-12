@@ -1,28 +1,26 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { getTopAnime } from "../services/api";
 import AnimeCard from "./AnimeCard";
 import SearchBar from "./SearchBar";
-
-import { getTrendingAnime } from "../services/api.js";
-const Home = () => {
+const TopAnime = () => {
   const [anime, setAnime] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(null);
 
   useEffect(() => {
-    const loadAnime = async () => {
+    const loadTopAnime = async () => {
       try {
         setLoading(true);
-        const data = await getTrendingAnime();
+        const data = await getTopAnime();
         setAnime(data);
         setErr(null);
-      } catch (error) {
+      } catch (err) {
         setErr("Failed to load anime. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
-    loadAnime();
+    loadTopAnime();
   }, []);
   const [searchQuery, setSearchQuery] = useState("");
   const filtered_anime = anime.filter((a) =>
@@ -41,11 +39,11 @@ const Home = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">
         {" "}
         {filtered_anime.map((a) => (
-          <AnimeCard anime={a} key={a.mal_id} />
+          <AnimeCard anime={a} showRank={true} key={a.mal_id} />
         ))}{" "}
       </div>
     </>
   );
 };
 
-export default Home;
+export default TopAnime;

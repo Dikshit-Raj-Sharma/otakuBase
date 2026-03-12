@@ -6,6 +6,7 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Home from "./components/Home.jsx";
 import Favourite from "./components/Favourite.jsx";
+import TopAnime from "./components/TopAnime.jsx";
 import { AnimeContextProvider } from "./context/AnimeContext.jsx";
 
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "favourite",
         element: <Favourite />,
+      },
+      {
+        path: "top",
+        element: <TopAnime />
       },
     ],
   },
